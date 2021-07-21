@@ -1,0 +1,79 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '10.0'
+
+# CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure flutter pub get is executed first"
+  end
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
+end
+
+def appodeal
+    pod 'APDAdColonyAdapter', '2.10.1.1'
+    pod 'APDAmazonAdsAdapter', '2.10.1.1'
+    pod 'APDAppLovinAdapter', '2.10.1.2'
+    pod 'APDBidMachineAdapter', '2.10.1.2' # Required
+    pod 'APDChartboostAdapter', '2.10.1.1'
+    pod 'APDFacebookAudienceAdapter', '2.10.1.1'
+    pod 'APDGoogleAdMobAdapter', '2.10.1.1'
+    pod 'APDInMobiAdapter', '2.10.1.1'
+    pod 'APDIronSourceAdapter', '2.10.1.2'
+    pod 'APDMintegralAdapter', '2.10.1.1'
+    pod 'APDMyTargetAdapter', '2.10.1.2'
+    pod 'APDOguryAdapter', '2.10.1.1'
+    pod 'APDSmaatoAdapter', '2.10.1.1'
+    pod 'APDStartAppAdapter', '2.10.1.2'
+    pod 'APDTapjoyAdapter', '2.10.1.1'
+    pod 'APDTwitterMoPubAdapter', '2.10.1.1'
+    pod 'APDUnityAdapter', '2.10.1.1'
+    pod 'APDVungleAdapter', '2.10.1.1'
+    pod 'APDYandexAdapter', '2.10.1.1'
+end
+
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_ios_podfile_setup
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  appodeal
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+  end
+end
+#post_install do |pi|
+#    pi.pods_project.targets.each do |t|
+#      t.build_configurations.each do |config|
+#        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+#      end
+#    end
+#end
+# add the Firebase pod for Google Analytics
+# pod 'Firebase/Analytics'
+# pod 'FBAudienceNetwork'
+# pod 'mopub-ios-sdk'
+
+# add pods for any other desired Firebase products
+# https://firebase.google.com/docs/ios/setup#available-pods

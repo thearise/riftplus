@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50" height="50" viewBox="0 0 50 50">
+  <defs>
+    <clipPath id="clip-mid-lane-icon">
+      <rect width="50" height="50"/>
+    </clipPath>
+  </defs>
+  <g id="mid-lane-icon" clip-path="url(#clip-mid-lane-icon)">
+    <rect width="50" height="50" fill="rgba(255,255,255,0)"/>
+    <g id="Group_1614" data-name="Group 1614" transform="translate(157.07 -1488.23)">
+      <path id="Union_21" data-name="Union 21" d="M12.419,35.479l5.27-5.27H30.108v-12.6l5.319-5.319V35.479ZM0,35.478v-6.8L28.6.081H35.51v6.69L6.8,35.478ZM0,0H22.978L17.624,5.354H5.332V17.67L0,23.135Z" transform="translate(-149.888 1495.097)" fill="#c4a569"/>
+    </g>
+  </g>
+</svg>
