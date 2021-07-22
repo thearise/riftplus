@@ -119,28 +119,6 @@ PODS:
     - StackCrashReporter (= 1.0.0-Beta)
     - StackIAB (~> 1.4.1)
     - StackModules (~> 1.1.0)
-  - appodeal_flutter (1.0.0):
-    - APDAdColonyAdapter (= 2.10.1.1)
-    - APDAmazonAdsAdapter (= 2.10.1.1)
-    - APDAppLovinAdapter (= 2.10.1.2)
-    - APDBidMachineAdapter (= 2.10.1.2)
-    - APDChartboostAdapter (= 2.10.1.1)
-    - APDFacebookAudienceAdapter (= 2.10.1.1)
-    - APDGoogleAdMobAdapter (= 2.10.1.1)
-    - APDInMobiAdapter (= 2.10.1.1)
-    - APDIronSourceAdapter (= 2.10.1.2)
-    - APDMintegralAdapter (= 2.10.1.1)
-    - APDMyTargetAdapter (= 2.10.1.2)
-    - APDOguryAdapter (= 2.10.1.1)
-    - APDSmaatoAdapter (= 2.10.1.1)
-    - APDStartAppAdapter (= 2.10.1.2)
-    - APDTapjoyAdapter (= 2.10.1.1)
-    - APDTwitterMoPubAdapter (= 2.10.1.1)
-    - APDUnityAdapter (= 2.10.1.1)
-    - APDVungleAdapter (= 2.10.1.1)
-    - APDYandexAdapter (= 2.10.1.1)
-    - Flutter
-    - StackConsentManager (= 1.0.1)
   - AppRollSDK (3.1.2)
   - BidMachine (1.7.3.0):
     - BidMachine/Core (= 1.7.3.0)
@@ -154,6 +132,9 @@ PODS:
   - CriteoPublisherSdk (4.0.1):
     - CriteoPublisherSdk/Sdk (= 4.0.1)
   - CriteoPublisherSdk/Sdk (4.0.1)
+  - facebook_audience_network (0.0.1):
+    - FBAudienceNetwork (~> 6.3)
+    - Flutter
   - FBAudienceNetwork (6.4.1):
     - FBSDKCoreKit/Basics (>= 7.0.1)
   - FBSDKCoreKit/Basics (9.3.0)
@@ -272,7 +253,6 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - StackConsentManager (1.0.1)
   - StackCrashReporter (1.0.0-Beta)
   - StackIAB (1.4.3):
     - StackIAB/StackIABAssets (= 1.4.3)
@@ -364,8 +344,8 @@ DEPENDENCIES:
   - APDUnityAdapter (= 2.10.1.1)
   - APDVungleAdapter (= 2.10.1.1)
   - APDYandexAdapter (= 2.10.1.1)
-  - appodeal_flutter (from `.symlinks/plugins/appodeal_flutter/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
+  - facebook_audience_network (from `.symlinks/plugins/facebook_audience_network/ios`)
   - Flutter (from `Flutter`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
@@ -425,7 +405,6 @@ SPEC REPOS:
     - Protobuf
     - Reachability
     - smaato-ios-sdk
-    - StackConsentManager
     - StackCrashReporter
     - StackIAB
     - StackModules
@@ -437,10 +416,10 @@ SPEC REPOS:
     - YandexMobileMetrica
 
 EXTERNAL SOURCES:
-  appodeal_flutter:
-    :path: ".symlinks/plugins/appodeal_flutter/ios"
   connectivity:
     :path: ".symlinks/plugins/connectivity/ios"
+  facebook_audience_network:
+    :path: ".symlinks/plugins/facebook_audience_network/ios"
   Flutter:
     :path: Flutter
   gallery_saver:
@@ -487,12 +466,12 @@ SPEC CHECKSUMS:
   APDYandexAdapter: bdfe05e2bb796d3bca08adf890fcf8edc781dff8
   AppLovinSDK: 3bbfef1e3ac84d85f556fda26e50f5a70230b970
   Appodeal: 1bb4a1d29eff4c30deab00ec04103ee0bf4279c1
-  appodeal_flutter: a195a97aa259f60a78795cd2c0298a098ddabb03
   AppRollSDK: bd9e96ad026dd51ad07714a35d43da95bb882d5f
   BidMachine: e1cfa7f47a51ec6afbc62949d12274f61c04c1bf
   ChartboostSDK: df785becfd574915aeb8704818fa57679c099711
   connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   CriteoPublisherSdk: a7551daf9235203a040703504ae549e842b5eebf
+  facebook_audience_network: bb22bdda913d419d8c3247c9570bda4563302417
   FBAudienceNetwork: 1974ec59ef88102f284c29941d73d0cbec3f2874
   FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
@@ -518,7 +497,6 @@ SPEC CHECKSUMS:
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   smaato-ios-sdk: 700f044b161581a3396072d01ce48c81c09a9fa3
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  StackConsentManager: 2e7c7512d4c1b5dddf248e7e9f78931d8d0142e8
   StackCrashReporter: 855bc6d59c5ab0a8103b1428e1d5d25abe61ed30
   StackIAB: 0229259e7616ea48da76466a325cf7c53ea860cd
   StackModules: c523e8e91b403b1c20e64fad5eab049d00c70fc6

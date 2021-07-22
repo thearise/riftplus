@@ -1,4 +1,4 @@
-import 'package:appodeal_flutter/appodeal_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:riftplus02/screens/app.dart';
@@ -64,11 +64,6 @@ class MyApp extends StatelessWidget {
     ]);
 
 
-  }
-
-  appoBannerReady() async {
-    var isReady = await Appodeal.isReadyForShow(AdType.BANNER);
-    return isReady;
   }
 
   final String viewType = '<platform-view-type>';

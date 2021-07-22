@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 // import 'package:connectivity/connectivity.dart';
 // import 'package:admob_flutter/admob_flutter.dart';
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,8 +98,9 @@ class Infos {
   final String ios_url2;
   final String is_skipable;
   final String interInt;
+  final String interInt2;
 
-  Infos({this.app_update, this.ios_app_update, this.main_ads, this.innerbots_ads, this.more_ads, this.version_code, this.whats_new, this.android_url, this.android_url2, this.ios_url, this.ios_url2, this.is_skipable, this.interInt});
+  Infos({this.app_update, this.ios_app_update, this.main_ads, this.innerbots_ads, this.more_ads, this.version_code, this.whats_new, this.android_url, this.android_url2, this.ios_url, this.ios_url2, this.is_skipable, this.interInt, this.interInt2});
 
   factory Infos.fromJson(Map<String, dynamic> json){
     return Infos(
@@ -114,7 +116,8 @@ class Infos {
         ios_url: json['ios_url'],
         ios_url2: json['ios_url2'],
         is_skipable: json['is_skipable'],
-        interInt: json['interInt']
+        interInt: json['interInt'],
+        interInt2: json['interInt2']
     );
   }
 }
@@ -125,14 +128,13 @@ class App extends StatefulWidget {
   State<StatefulWidget> createState() => AppState();
 }
 
-class AppState extends State<App> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin<App>{
-  bool isAppodealInitialized = false;
+class AppState extends State<App> with TickerProviderStateMixin<App>{
   var tthighLight = false;
   var langTt = true;
   var pressTt = false;
   var ttPressC = 0;
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
   GlobalKey<AppState> langKey = GlobalKey();
   GlobalKey _globOne = GlobalKey();
   GlobalKey _globTwo = GlobalKey();
@@ -181,32 +183,45 @@ class AppState extends State<App> with AutomaticKeepAliveClientMixin, TickerProv
   static MyAppSettings locSettings;
   @override
   void initState() {
-    Appodeal.setAppKeys(
-        androidAppKey: 'a8381f5f6a2794a69600c0db8f90e4bc6f101d047d9dce08',
-        iosAppKey: '9e3c378eb61f2bdb8071023cc063e1af7045d64ff41d0848');
+    super.initState();
+    // Appodeal.setAppKeys(
+    //     androidAppKey: 'a8381f5f6a2794a69600c0db8f90e4bc6f101d047d9dce08',
+    //     iosAppKey: '9e3c378eb61f2bdb8071023cc063e1af7045d64ff41d0848');
+    //
+    // // Defining the callbacks
+    // Appodeal.setBannerCallback((event) => print('Banner ad triggered the event $event'));
+    // Appodeal.setInterstitialCallback((event) => print('Interstitial ad triggered the event $event'));
+    // Appodeal.setRewardCallback((event) => print('Reward ad triggered the event $event'));
+    // Appodeal.setNonSkippableCallback((event) => print('Non-skippable ad triggered the event $event'));
+    //
+    // // Request authorization to track the user
+    // Appodeal.requestIOSTrackingAuthorization().then((_) async {
+    //   // Set interstitial ads to be cached manually
+    //   await Appodeal.setAutoCache(AdType.INTERSTITIAL, false);
+    //
+    //   // Initialize Appodeal after the authorization was granted or not
+    //   await Appodeal.initialize(
+    //       hasConsent: true,
+    //       adTypes: [AdType.BANNER, AdType.INTERSTITIAL, AdType.REWARD, AdType.NON_SKIPPABLE],
+    //       testMode: false);
+    //
+    //   setState(() => this.isAppodealInitialized = true);
+    //   print('appodeal2 shwe');
+    //
+    // });
 
-    // Defining the callbacks
-    Appodeal.setBannerCallback((event) => print('Banner ad triggered the event $event'));
-    Appodeal.setInterstitialCallback((event) => print('Interstitial ad triggered the event $event'));
-    Appodeal.setRewardCallback((event) => print('Reward ad triggered the event $event'));
-    Appodeal.setNonSkippableCallback((event) => print('Non-skippable ad triggered the event $event'));
 
-    // Request authorization to track the user
-    Appodeal.requestIOSTrackingAuthorization().then((_) async {
-      // Set interstitial ads to be cached manually
-      // await Appodeal.setAutoCache(AdType.INTERSTITIAL, false);
+    FacebookAudienceNetwork.init(
+        testingId: "0363a064-bf86-4c56-9e04-c26b20b9ba98", //optional
+        iOSAdvertiserTrackingEnabled: true //default false
+    );
 
-      // Initialize Appodeal after the authorization was granted or not
-      await Appodeal.initialize(
-          hasConsent: true,
-          adTypes: [AdType.BANNER, AdType.INTERSTITIAL, AdType.REWARD, AdType.NON_SKIPPABLE],
-          testMode: true);
 
-      // setState(() => this.isAppodealInitialized = true);
-      print('appodeal2 shwe');
-      appoBannerReady();
 
-    });
+
+
+
+
 
     menuController = new MenuController(
       vsync: this,
@@ -229,15 +244,13 @@ class AppState extends State<App> with AutomaticKeepAliveClientMixin, TickerProv
     ads = fetchAds();
 
     infos.then((val) {
-      print('shining star ' + val.interInt);
+      print('shining star ' + val.interInt2);
       setState(() {
-        interIntGlob = int.parse(val.interInt);
+        interIntGlob = int.parse(val.interInt2);
       });
 
     });
 
-
-    super.initState();
 
 
 
@@ -264,17 +277,6 @@ class AppState extends State<App> with AutomaticKeepAliveClientMixin, TickerProv
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  appoBannerReady() async {
-    var isReady = await Appodeal.isReadyForShow(AdType.BANNER);
-    print(isReady?'appodeal2 ready': 'appodeal2 not ready');
-
-    Future.delayed(const Duration(milliseconds: 10000), () async {
-      var isReady = await Appodeal.isReadyForShow(AdType.BANNER);
-      print(isReady?'appodeal2 ready': 'appodeal2 not ready');
-
-    });
-    //return isReady;
-  }
 
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -307,14 +309,59 @@ class AppState extends State<App> with AutomaticKeepAliveClientMixin, TickerProv
       print('inter pya ');
       gloAdsInt = 0;
 
+
+      FacebookInterstitialAd.loadInterstitialAd(
+        placementId: "326003882589802_328521285671395",
+        listener: (result, value) {
+          if (result == InterstitialAdResult.LOADED) {
+            print('loaded inter 1');
+            FacebookInterstitialAd.showInterstitialAd(delay: 0);
+            print('loaded inter 2');
+          }
+
+
+
+        },
+      );
+
       // var isReady = await Appodeal.isReadyForShow(AdType.INTERSTITIAL);
       // Toast.show(isReady ? 'Interstitial ad is ready' : 'Interstitial ad is NOT ready', context,
       //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
 
       // Appodeal.show(AdType.INTERSTITIAL);
-      var isReady = await Appodeal.isReadyForShow(AdType.NON_SKIPPABLE);
-      Toast.show(isReady ? 'Non-Skippable ad is ready' : 'No-Skippable ad is NOT ready', context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+      // Random random = new Random();
+      // int randomNumber = random.nextInt(3);
+      //
+      // print('randomNumber ' + randomNumber.toString());
+      //
+      // var isReady = await Appodeal.isReadyForShow(AdType.INTERSTITIAL);
+      // var isReady1 = await Appodeal.isReadyForShow(AdType.NON_SKIPPABLE);
+      // var isReady2 = await Appodeal.isReadyForShow(AdType.REWARD);
+      //
+      //
+      // await Appodeal.show(AdType.INTERSTITIAL);
+
+      // if(randomNumber==0) {
+      //   if(isReady) {
+      //     await Appodeal.show(AdType.INTERSTITIAL);
+      //   } else {
+      //     await Appodeal.show(AdType.REWARD);
+      //   }
+      //
+      // } else if(randomNumber==1) {
+      //   if(isReady1) {
+      //     await Appodeal.show(AdType.REWARD);
+      //   } else {
+      //     await Appodeal.show(AdType.NON_SKIPPABLE);
+      //   }
+      //
+      // } else if(randomNumber==2) {
+      //   if(isReady2) {
+      //     await Appodeal.show(AdType.REWARD);
+      //   } else {
+      //     await Appodeal.show(AdType.NON_SKIPPABLE);
+      //   }
+      // }
 
 
       // if (await interstitialAd.isLoaded) { // Google Inter

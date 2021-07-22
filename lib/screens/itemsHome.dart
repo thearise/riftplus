@@ -1,8 +1,10 @@
 import 'dart:io';
 
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:riftplus02/icon_fonts/riftplus-icons.dart';
 import 'package:riftplus02/screens/items_boots_api.dart';
@@ -41,6 +43,11 @@ class _ItemsHomeState extends State<ItemsHome>  with TickerProviderStateMixin {
   bool changingLan = false;
   var preferences;
   var prevLang = "{no: EN, keyword: english}";
+  bool bannerLoaded=false;
+
+  final String viewType = '<platform-view-type>';
+  // Pass parameters to the platform side.
+  final Map<String, dynamic> creationParams = <String, dynamic>{};
 
   void initState() {
     _initStreamPref();
@@ -184,24 +191,50 @@ class _ItemsHomeState extends State<ItemsHome>  with TickerProviderStateMixin {
               //tabBodyInner
             ],
           ),
-          // Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width,
-          //     child: Platform.isIOS? AdmobBanner(
-          //       adUnitId: getBannerAdUnitId(),
-          //       adSize: AdmobBannerSize.SMART_BANNER(context),
-          //     ): AdmobBanner(
-          //       adUnitId: getBannerAdUnitId(),
-          //       adSize: AdmobBannerSize.ADAPTIVE_BANNER(
-          //         width: MediaQuery.of(context)
-          //             .size
-          //             .width
-          //             .toInt(), // considering EdgeInsets.all(20.0)
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  // border: Border(top: BorderSide(color: AppTheme.borderColor, width: 1.0)),
+                  color: AppTheme.thirdBgColor,
+                ),
+
+                height: bannerLoaded? 50:0,
+                width: double.infinity,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Transform.translate(
+                    offset: Offset(0, 0),
+                    child: Transform.scale(
+                      scale: 1.04,
+                      child: FacebookBannerAd(
+                        placementId: Platform.isAndroid ? "YOUR_ANDROID_PLACEMENT_ID" : "326003882589802_328482025675321",
+                        bannerSize: BannerSize.STANDARD,
+                        listener: (result, value) {
+                          switch (result) {
+                            case BannerAdResult.ERROR:
+                              print("Error: $value");
+                              break;
+                            case BannerAdResult.LOADED:
+                              setState(() {
+                                bannerLoaded = true;
+                              });
+                              print("Loaded: $value");
+                              break;
+                            case BannerAdResult.CLICKED:
+                              print("Clicked: $value");
+                              break;
+                            case BannerAdResult.LOGGING_IMPRESSION:
+                              print("Logging Impression: $value");
+                              break;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              )
+          ),
 
           Align(
             alignment: Alignment.bottomCenter,

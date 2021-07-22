@@ -55,9 +55,9 @@ dependencies:
   cached_network_image:
   chewie:
 #  facebook_audience_network:
-  appodeal_flutter: ^1.0.0
+#  appodeal_flutter: ^1.0.0
   toast: ^0.1.5
-#  facebook_audience_network: ^1.0.0-nullsafety.0
+  facebook_audience_network: ^1.0.0-nullsafety.0
   # cloud_firestore: ^0.13.0+1
 
   # The following adds the Cupertino Icons font to your application.
@@ -69,6 +69,7 @@ dependencies:
   url_launcher:
   shared_preferences:
   in_app_review:
+#  appodeal_ads:
 #  unity_ads_plugin:
 
 

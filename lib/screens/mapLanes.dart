@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // import 'package:admob_flutter/admob_flutter.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class _MapLanesState extends State<MapLanes>  with TickerProviderStateMixin{
   final int _startingTabCount = 3;
   var preferences;
   bool changingLan = false;
+  bool bannerLoaded=false;
 
   var globLang = 'EN';
   void initState() {
@@ -191,46 +193,49 @@ class _MapLanesState extends State<MapLanes>  with TickerProviderStateMixin{
 
 
               Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // border: Border(top: BorderSide(color: AppTheme.borderColor, width: 1.0)),
+                      color: AppTheme.thirdBgColor,
+                    ),
 
-                  width: MediaQuery.of(context).size.width,
-                  child: Platform.isIOS? Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 47,
-                    // color: AppTheme.thirdBgColor,
+                    height: bannerLoaded? 50:0,
+                    width: double.infinity,
                     child: Align(
-                      alignment: Alignment.bottomCenter,
-                      // UnityAds.isReady(placementId: 'video_placement_id');
-                      //             child: CustomUnityBanner('Banner_iOS'),
+                      alignment: Alignment.center,
                       child: Transform.translate(
-                        offset: Offset(-141, 5),
+                        offset: Offset(0, 0),
                         child: Transform.scale(
-                          scale: 0.8,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 28.0),
-                            child: Container(),
+                          scale: 1.04,
+                          child: FacebookBannerAd(
+                            placementId: Platform.isAndroid ? "YOUR_ANDROID_PLACEMENT_ID" : "326003882589802_328482025675321",
+                            bannerSize: BannerSize.STANDARD,
+                            listener: (result, value) {
+                              switch (result) {
+                                case BannerAdResult.ERROR:
+                                  print("Error: $value");
+                                  break;
+                                case BannerAdResult.LOADED:
+                                  setState(() {
+                                    bannerLoaded = true;
+                                  });
+                                  print("Loaded: $value");
+                                  break;
+                                case BannerAdResult.CLICKED:
+                                  print("Clicked: $value");
+                                  break;
+                                case BannerAdResult.LOGGING_IMPRESSION:
+                                  print("Logging Impression: $value");
+                                  break;
+                              }
+                            },
                           ),
                         ),
                       ),
                     ),
-                  ): Container(
-                    width: MediaQuery.of(context).size.width,
-                    // height: 47,
-                    // color: AppTheme.thirdBgColor,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Transform.translate(
-                        offset: Offset(0, -7),
-                        child: Transform.scale(
-                          scale: 1.29,
-                          child: Container(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
+                  )
+              ),
             ],
           ),
         )

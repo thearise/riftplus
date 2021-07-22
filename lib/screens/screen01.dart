@@ -2,6 +2,7 @@ import 'dart:io';
 
 // import 'package:admob_flutter/admob_flutter.dart';
 // import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,6 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 // import 'package:riftplus02/screens/screen_one_route/champion_route.dart';
 // import 'package:riftplus02/views/championsbarview.dart';
 
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 
 import '../apptheme.dart';
 import '../fintness_app_theme.dart';
@@ -113,6 +113,8 @@ class _MailPageState extends State<MailPage> with TickerProviderStateMixin{
   int tabIndex;
   var preferences;
   var prevLang = "{no: EN, keyword: english}";
+
+  bool bannerLoaded=false;
 
 
 
@@ -598,77 +600,49 @@ class _MailPageState extends State<MailPage> with TickerProviderStateMixin{
           // ),
 
           Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-
-              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.bottomCenter,
               child: Container(
-                child: Container(
-                  height: 50,
-                  // color: Colors.black,
-                  child: Container(
-                    child: AppodealBanner(),
-                    // child: FacebookBannerAd(
-                    //   placementId: Platform.isAndroid ? "708437736767412_840270023584182" : "708437736767412_840257316918786",
-                    //   // bannerSize: BannerSize.STANDARD,
-                    //   listener: (result, value) {
-                    //     switch (result) {
-                    //       case BannerAdResult.ERROR:
-                    //         print("Error: $value");
-                    //         break;
-                    //       case BannerAdResult.LOADED:
-                    //         print("Loaded: $value");
-                    //         break;
-                    //       case BannerAdResult.CLICKED:
-                    //         print("Clicked: $value");
-                    //         break;
-                    //       case BannerAdResult.LOGGING_IMPRESSION:
-                    //         print("Logging Impression: $value");
-                    //         break;
-                    //     }
-                    //   },
-                    // ),
-                  )
+                decoration: BoxDecoration(
+                    // border: Border(top: BorderSide(color: AppTheme.borderColor, width: 1.0)),
+                    color: AppTheme.thirdBgColor,
                 ),
-                // color: AppTheme.thirdBgColor,
-    //             child: Align(
-    //               alignment: Alignment.bottomCenter,
-    // // UnityAds.isReady(placementId: 'video_placement_id');
-    // //             child: CustomUnityBanner('Banner_iOS'),
-    //               child: Transform.translate(
-    //                 offset: Offset(-141, 5),
-    //                 child: Transform.scale(
-    //                   scale: 0.8,
-    //                   child: Padding(
-    //                     padding: const EdgeInsets.only(right: 28.0),
-    //                     child: UnityBannerAd(
-    //                       placementId: 'Banner_iOS',
-    //                       listener: (state, args) {
-    //                         print('Banner Listener: $state => $args');
-    //                       },
-    //                       size: BannerSize(),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
 
-
-                // child: Platform.isIOS?UiKitView(
-                //   viewType: viewType,
-                //   layoutDirection: TextDirection.ltr,
-                //   creationParams: creationParams,
-                //   creationParamsCodec: const StandardMessageCodec(),
-                // ):AndroidView(
-                //   viewType: viewType,
-                //   layoutDirection: TextDirection.ltr,
-                //   creationParams: creationParams,
-                //   creationParamsCodec: const StandardMessageCodec(),
-                // ),
-                // child: Container()
-              ),
-            ),
-          ),
+                height: bannerLoaded? 50:0,
+                width: double.infinity,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Transform.translate(
+                    offset: Offset(0, 0),
+                    child: Transform.scale(
+                      scale: 1.04,
+                      child: FacebookBannerAd(
+                        placementId: Platform.isAndroid ? "YOUR_ANDROID_PLACEMENT_ID" : "326003882589802_328482025675321",
+                        bannerSize: BannerSize.STANDARD,
+                        listener: (result, value) {
+                          switch (result) {
+                            case BannerAdResult.ERROR:
+                              print("Error: $value");
+                              break;
+                            case BannerAdResult.LOADED:
+                              setState(() {
+                                bannerLoaded = true;
+                              });
+                              print("Loaded: $value");
+                              break;
+                            case BannerAdResult.CLICKED:
+                              print("Clicked: $value");
+                              break;
+                            case BannerAdResult.LOGGING_IMPRESSION:
+                              print("Logging Impression: $value");
+                              break;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              )
+          )
         ],
       ),
     );

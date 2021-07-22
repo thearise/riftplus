@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 // import 'package:admob_flutter/admob_flutter.dart';
-import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:riftplus02/icon_fonts/blue_motes_icons.dart';
@@ -79,18 +79,18 @@ class _BaronLaneState extends State<BaronLane>  with TickerProviderStateMixin{
   }
 
   showVideo() async {
-    var isReady = await Appodeal.isReadyForShow(AdType.NON_SKIPPABLE);
-    var isReady1 = await Appodeal.isReadyForShow(AdType.INTERSTITIAL);
-    var isReady2 = await Appodeal.isReadyForShow(AdType.REWARD);
-
-
-    Toast.show(isReady1 ? 'INTERSTITIAL ad is ready' : 'INTERSTITIAL ad is NOT ready', context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
-    Toast.show(isReady ? 'NON_SKIPPABLE ad is ready' : 'NON_SKIPPABLE ad is NOT ready', context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-
-    await Appodeal.show(AdType.NON_SKIPPABLE);
+    // var isReady = await Appodeal.isReadyForShow(AdType.NON_SKIPPABLE);
+    // var isReady1 = await Appodeal.isReadyForShow(AdType.INTERSTITIAL);
+    // var isReady2 = await Appodeal.isReadyForShow(AdType.REWARD);
+    //
+    //
+    // Toast.show(isReady1 ? 'INTERSTITIAL ad is ready' : 'INTERSTITIAL ad is NOT ready', context,
+    //     duration: Toast.LENGTH_LONG, gravity: Toast.TOP);
+    // Toast.show(isReady ? 'NON_SKIPPABLE ad is ready' : 'NON_SKIPPABLE ad is NOT ready', context,
+    //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    //
+    //
+    // await Appodeal.show(AdType.NON_SKIPPABLE);
   }
 
 
@@ -149,7 +149,7 @@ class _BaronLaneState extends State<BaronLane>  with TickerProviderStateMixin{
                             id: '',
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 90.0, top: 15.0),
+                            padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 15.0),
                             child: Text(
                               widget.desc,
                               textScaleFactor: 1,
@@ -159,6 +159,28 @@ class _BaronLaneState extends State<BaronLane>  with TickerProviderStateMixin{
                                   color: AppTheme.labTextActive,
                                   height: 1.3
                               ),
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+                            child: FacebookNativeAd(
+                              placementId: "326003882589802_328524162337774",
+                              adType: NativeAdType.NATIVE_AD,
+                              width: double.infinity,
+                              height: 300,
+                              backgroundColor: AppTheme.priBgColor,
+                              titleColor: Colors.white,
+                              descriptionColor: Colors.white,
+                              buttonColor: Colors.deepPurple,
+                              buttonTitleColor: Colors.white,
+                              buttonBorderColor: Colors.white,
+                              keepAlive: true, //set true if you do not want adview to refresh on widget rebuild
+                              keepExpandedWhileLoading: false, // set false if you want to collapse the native ad view when the ad is loading
+                              expandAnimationDuraion: 300, //in milliseconds. Expands the adview with animation when ad is loaded
+                              listener: (result, value) {
+                                print("Native Ad: $result --> $value");
+                              },
                             ),
                           ),
                         ],
@@ -179,45 +201,35 @@ class _BaronLaneState extends State<BaronLane>  with TickerProviderStateMixin{
                         return Container();
                       } else if (snapshot.hasData && snapshot.data.type.contains('bannerIOS') && !Platform.isAndroid) {
                         return Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-
-                            width: MediaQuery.of(context).size.width,
-                            child: Platform.isIOS? Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 47,
-                              // color: AppTheme.thirdBgColor,
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                // UnityAds.isReady(placementId: 'video_placement_id');
-                                //             child: CustomUnityBanner('Banner_iOS'),
-                                child: Transform.translate(
-                                  offset: Offset(-141, 5),
-                                  child: Transform.scale(
-                                    scale: 0.8,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 28.0),
-                                      child: Container()
-                                    ),
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              child: Transform.translate(
+                                offset: Offset(0, 0),
+                                child: Transform.scale(
+                                  scale: 1.17,
+                                  child: FacebookBannerAd(
+                                    placementId: Platform.isAndroid ? "YOUR_ANDROID_PLACEMENT_ID" : "326003882589802_328482025675321",
+                                    bannerSize: BannerSize.STANDARD,
+                                    listener: (result, value) {
+                                      switch (result) {
+                                        case BannerAdResult.ERROR:
+                                          print("Error: $value");
+                                          break;
+                                        case BannerAdResult.LOADED:
+                                          print("Loaded: $value");
+                                          break;
+                                        case BannerAdResult.CLICKED:
+                                          print("Clicked: $value");
+                                          break;
+                                        case BannerAdResult.LOGGING_IMPRESSION:
+                                          print("Logging Impression: $value");
+                                          break;
+                                      }
+                                    },
                                   ),
                                 ),
                               ),
-                            ): Container(
-                              width: MediaQuery.of(context).size.width,
-                              // height: 47,
-                              // color: AppTheme.thirdBgColor,
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Transform.translate(
-                                  offset: Offset(0, -7),
-                                  child: Transform.scale(
-                                    scale: 1.29,
-                                    child: Container(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                            )
                         );
                       }
                       return Container();
